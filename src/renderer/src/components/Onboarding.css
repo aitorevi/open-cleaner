@@ -78,7 +78,9 @@
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
 .recheck-button:hover:not(:disabled) {

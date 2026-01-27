@@ -116,10 +116,12 @@ For OpenCleaner to function properly, it needs Full Disk Access:
 ### Application Scanning
 
 The app scans:
+
 - `/Applications` (system apps)
 - `~/Applications` (user apps)
 
 For each `.app` bundle:
+
 - Reads application metadata
 - Calculates total size
 - Displays in the list
@@ -139,16 +141,19 @@ Uses Electron's `shell.trashItem()` to safely move apps to trash without permane
 ## Security Considerations
 
 ### Context Isolation
+
 - Uses `contextBridge` for secure IPC
 - Never exposes full Node.js modules to renderer
 - All inputs validated before use
 
 ### Full Disk Access
+
 - Required for accessing protected directories
 - App should be signed for proper permission requests
 - In development: manually add to Full Disk Access
 
 ### Path Validation
+
 - All paths sanitized before operations
 - Prevents path traversal attacks
 - Confirms destructive operations

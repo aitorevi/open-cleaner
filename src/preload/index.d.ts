@@ -15,7 +15,10 @@ interface OpenCleanerAPI {
   scanApplications: () => Promise<App[]>
   findJunkFiles: (appName: string) => Promise<JunkFile[]>
   moveToTrash: (path: string) => Promise<{ success: boolean; error?: string }>
-  uninstallApp: (appName: string, appPath: string) => Promise<{ success: boolean; report?: UninstallReport; error?: string }>
+  uninstallApp: (
+    appName: string,
+    appPath: string
+  ) => Promise<{ success: boolean; report?: UninstallReport; error?: string }>
 }
 
 declare global {

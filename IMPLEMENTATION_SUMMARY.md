@@ -9,11 +9,13 @@ OpenCleaner has been successfully implemented following the Hexagonal Architectu
 ### ✅ Core Architecture (Hexagonal/Ports & Adapters)
 
 #### Domain Layer (`src/shared/domain/`)
+
 - **App.entity.ts**: Core domain entities
   - `App` interface: Application metadata
   - `JunkFile` interface: Related file metadata
 
 #### Ports (`src/main/ports/`)
+
 - **IFileSystemPort.ts**: File system operations interface
   - `checkAccess()`: Permission checking
   - `readDirectory()`: Directory listing
@@ -25,6 +27,7 @@ OpenCleaner has been successfully implemented following the Hexagonal Architectu
   - `findJunkFiles()`: Find related files
 
 #### Adapters (`src/main/adapters/`)
+
 - **NodeFileSystemAdapter.ts**: File system implementation
   - Uses `fs-extra` for file operations
   - Uses Electron's `shell.trashItem()` for safe deletion
@@ -36,12 +39,14 @@ OpenCleaner has been successfully implemented following the Hexagonal Architectu
   - Searches for junk files in common locations
 
 #### Use Cases (`src/main/usecases/`)
+
 - **CheckPermissions.usecase.ts**: Verify Full Disk Access
 - **ScanApplications.usecase.ts**: List all applications
 - **FindJunkFiles.usecase.ts**: Find app-related files
 - **MoveToTrash.usecase.ts**: Uninstall applications
 
 #### IPC Layer (`src/main/ipc/`)
+
 - **handlers.ts**: IPC communication handlers
   - `check-permissions`: Permission verification
   - `scan-applications`: App listing
@@ -51,6 +56,7 @@ OpenCleaner has been successfully implemented following the Hexagonal Architectu
 ### ✅ Security & Communication
 
 #### Preload (`src/preload/`)
+
 - **index.ts**: Context Bridge implementation
   - Secure IPC exposure via `contextBridge`
   - Type-safe API for renderer
@@ -64,12 +70,14 @@ OpenCleaner has been successfully implemented following the Hexagonal Architectu
 #### React Components (`src/renderer/src/components/`)
 
 **Onboarding.tsx**
+
 - Permission request instructions
 - Step-by-step guide for Full Disk Access
 - "Check Again" button to revalidate
 - Beautiful gradient design
 
 **AppList.tsx**
+
 - Application list with search
 - Size display with human-readable format
 - Application details panel
@@ -77,20 +85,25 @@ OpenCleaner has been successfully implemented following the Hexagonal Architectu
 - Refresh button
 
 #### Hooks (`src/renderer/src/hooks/`)
+
 **usePermissions.ts**
+
 - Custom hook for permission management
 - Auto-checks permissions on mount
 - Provides recheck functionality
 - Loading states
 
 #### Main App (`src/renderer/src/`)
+
 **App.tsx**
+
 - Conditional rendering based on permissions
 - Loading screen
 - Onboarding flow
 - Main application interface
 
 ### ✅ Styling
+
 - Modern CSS with gradients
 - Responsive layouts
 - Loading animations
@@ -229,6 +242,7 @@ Success → Refresh app list
 ## Key Features
 
 ### Security
+
 - ✅ Context isolation enabled
 - ✅ Secure IPC via contextBridge
 - ✅ No direct Node.js access from renderer
@@ -236,6 +250,7 @@ Success → Refresh app list
 - ✅ Safe deletion (trash, not permanent)
 
 ### Architecture Benefits
+
 - ✅ Testable use cases
 - ✅ Swappable adapters
 - ✅ Clear separation of concerns
@@ -243,6 +258,7 @@ Success → Refresh app list
 - ✅ Domain-driven design
 
 ### User Experience
+
 - ✅ Clean, modern interface
 - ✅ Clear permission instructions
 - ✅ Real-time application scanning
@@ -286,12 +302,14 @@ npm run format
 ## Next Steps (Future Enhancements)
 
 ### Immediate Improvements
+
 - [ ] Add junk file scanning UI
 - [ ] Implement batch uninstall
 - [ ] Add search/filter functionality
 - [ ] Show total size to be freed
 
 ### Advanced Features
+
 - [ ] Drag & drop support
 - [ ] Custom scan locations
 - [ ] Uninstall history
@@ -299,6 +317,7 @@ npm run format
 - [ ] Export uninstall reports
 
 ### Technical Improvements
+
 - [ ] Unit tests for use cases
 - [ ] Integration tests for adapters
 - [ ] E2E tests with Spectron
@@ -310,6 +329,7 @@ npm run format
 **Total Files Created: 19**
 
 ### Main Process: 8 files
+
 - 2 Port interfaces
 - 2 Adapter implementations
 - 4 Use cases
@@ -317,10 +337,12 @@ npm run format
 - 1 Main entry point (modified)
 
 ### Preload: 2 files
+
 - 1 Context bridge
 - 1 Type definitions (modified)
 
 ### Renderer: 7 files
+
 - 2 Components (Onboarding, AppList)
 - 2 CSS files
 - 1 Custom hook
@@ -328,9 +350,11 @@ npm run format
 - 1 App CSS
 
 ### Shared: 1 file
+
 - 1 Domain entity
 
 ### Documentation: 2 files
+
 - README_OPENCLEANER.md
 - IMPLEMENTATION_SUMMARY.md
 
@@ -339,19 +363,23 @@ npm run format
 ### ✅ Hexagonal Architecture Compliance
 
 **Ports (Interfaces)**: Defined in `src/main/ports/`
+
 - Clear contracts for external dependencies
 - No implementation details
 
 **Adapters (Implementations)**: Defined in `src/main/adapters/`
+
 - Concrete implementations of ports
 - Technology-specific code isolated
 
 **Use Cases (Business Logic)**: Defined in `src/main/usecases/`
+
 - Pure business logic
 - Independent of UI and infrastructure
 - Testable without mocks
 
 **Domain (Entities)**: Defined in `src/shared/domain/`
+
 - Pure data structures
 - No dependencies on frameworks
 

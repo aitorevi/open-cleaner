@@ -9,7 +9,7 @@ function createWindow(): void {
   const mainWindow = new BrowserWindow({
     width: 900,
     height: 670,
-    show: true,  // Mostrar inmediatamente para debugging
+    show: true, // Mostrar inmediatamente para debugging
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
@@ -24,7 +24,7 @@ function createWindow(): void {
   })
 
   // Log de errores
-  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
+  mainWindow.webContents.on('did-fail-load', (_event, errorCode, errorDescription) => {
     console.error('Failed to load:', errorCode, errorDescription)
   })
 

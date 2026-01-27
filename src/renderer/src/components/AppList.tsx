@@ -1,92 +1,92 @@
-import { useState, useEffect } from 'react';
-import { App } from '../../../shared/domain/App.entity';
-import './AppList.css';
+import { useState, useEffect } from 'react'
+import { App } from '../../../shared/domain/App.entity'
+import './AppList.css'
 
 export function AppList() {
-  const [apps, setApps] = useState<App[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [selectedApp, setSelectedApp] = useState<App | null>(null);
+  const [apps, setApps] = useState<App[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [selectedApp, setSelectedApp] = useState<App | null>(null)
 
   useEffect(() => {
-    loadApplications();
-  }, []);
+    loadApplications()
+  }, [])
 
   const loadApplications = async () => {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
-      const applications = await window.api.scanApplications();
-      setApps(applications);
+      const applications = await window.api.scanApplications()
+      setApps(applications)
     } catch (error) {
-      console.error('Error loading applications:', error);
+      console.error('Error loading applications:', error)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const formatSize = (bytes: number): string => {
-    if (bytes === 0) return '0 Bytes';
+    if (bytes === 0) return '0 Bytes'
 
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    const k = 1024
+    const sizes = ['Bytes', 'KB', 'MB', 'GB']
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
 
-    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
-  };
+    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i]
+  }
 
   const handleUninstall = async (app: App) => {
     if (confirm(`¿Estás seguro de que quieres desinstalar ${app.name}?`)) {
       try {
-        const result = await window.api.uninstallApp(app.name, app.path);
+        const result = await window.api.uninstallApp(app.name, app.path)
 
         if (result.success && result.report) {
-          const report = result.report;
+          const report = result.report
 
           // Build detailed report message
-          let reportMessage = `✅ Desinstalación completada: ${report.appName}\n\n`;
+          let reportMessage = `✅ Desinstalación completada: ${report.appName}\n\n`
 
           // Main app status
           if (report.mainAppDeleted) {
-            reportMessage += `✅ Aplicación principal eliminada\n`;
+            reportMessage += `✅ Aplicación principal eliminada\n`
           } else {
-            reportMessage += `❌ No se pudo eliminar la aplicación principal\n`;
+            reportMessage += `❌ No se pudo eliminar la aplicación principal\n`
           }
 
           // Junk files
           if (report.junkFilesDeleted.length > 0) {
-            reportMessage += `\n📁 Archivos residuales eliminados (${report.junkFilesDeleted.length}):\n`;
-            report.junkFilesDeleted.forEach(file => {
-              const fileName = file.path.split('/').pop();
-              reportMessage += `  • ${fileName} (${formatSize(file.size)})\n`;
-            });
+            reportMessage += `\n📁 Archivos residuales eliminados (${report.junkFilesDeleted.length}):\n`
+            report.junkFilesDeleted.forEach((file) => {
+              const fileName = file.path.split('/').pop()
+              reportMessage += `  • ${fileName} (${formatSize(file.size)})\n`
+            })
           } else {
-            reportMessage += `\nℹ️ No se encontraron archivos residuales\n`;
+            reportMessage += `\nℹ️ No se encontraron archivos residuales\n`
           }
 
           // Total space freed
-          reportMessage += `\n💾 Espacio liberado: ${formatSize(report.totalSpaceFreed)}\n`;
+          reportMessage += `\n💾 Espacio liberado: ${formatSize(report.totalSpaceFreed)}\n`
 
           // Errors
           if (report.errors.length > 0) {
-            reportMessage += `\n⚠️ Advertencias:\n`;
-            report.errors.forEach(error => {
-              reportMessage += `  • ${error}\n`;
-            });
+            reportMessage += `\n⚠️ Advertencias:\n`
+            report.errors.forEach((error) => {
+              reportMessage += `  • ${error}\n`
+            })
           }
 
-          alert(reportMessage);
+          alert(reportMessage)
 
           // Reload applications list
-          await loadApplications();
-          setSelectedApp(null);
+          await loadApplications()
+          setSelectedApp(null)
         } else {
-          alert(`❌ Error: ${result.error || 'No se pudo desinstalar la aplicación'}`);
+          alert(`❌ Error: ${result.error || 'No se pudo desinstalar la aplicación'}`)
         }
       } catch (error) {
-        console.error('Error uninstalling app:', error);
-        alert('❌ Error inesperado al desinstalar la aplicación');
+        console.error('Error uninstalling app:', error)
+        alert('❌ Error inesperado al desinstalar la aplicación')
       }
     }
-  };
+  }
 
   if (isLoading) {
     return (
@@ -96,7 +96,7 @@ export function AppList() {
           <p>Scanning applications...</p>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -151,10 +151,7 @@ export function AppList() {
               )}
             </div>
             <div className="details-actions">
-              <button
-                className="uninstall-button"
-                onClick={() => handleUninstall(selectedApp)}
-              >
+              <button className="uninstall-button" onClick={() => handleUninstall(selectedApp)}>
                 Uninstall
               </button>
             </div>
@@ -162,5 +159,5 @@ export function AppList() {
         )}
       </div>
     </div>
-  );
+  )
 }

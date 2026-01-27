@@ -1,8 +1,8 @@
-import './Onboarding.css';
+import './Onboarding.css'
 
 interface OnboardingProps {
-  onRecheck: () => void;
-  isChecking: boolean;
+  onRecheck: () => void
+  isChecking: boolean
 }
 
 export function Onboarding({ onRecheck, isChecking }: OnboardingProps) {
@@ -11,7 +11,8 @@ export function Onboarding({ onRecheck, isChecking }: OnboardingProps) {
       <div className="onboarding-content">
         <h1>Welcome to OpenCleaner</h1>
         <p className="subtitle">
-          OpenCleaner needs Full Disk Access to scan and remove applications and their related files.
+          OpenCleaner needs Full Disk Access to scan and remove applications and their related
+          files.
         </p>
 
         <div className="steps">
@@ -41,11 +42,7 @@ export function Onboarding({ onRecheck, isChecking }: OnboardingProps) {
         </div>
 
         <div className="actions">
-          <button
-            className="recheck-button"
-            onClick={onRecheck}
-            disabled={isChecking}
-          >
+          <button className="recheck-button" onClick={onRecheck} disabled={isChecking}>
             {isChecking ? 'Checking...' : 'Check Again'}
           </button>
         </div>
@@ -61,5 +58,5 @@ export function Onboarding({ onRecheck, isChecking }: OnboardingProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }

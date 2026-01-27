@@ -7,7 +7,8 @@ const api = {
   scanApplications: () => ipcRenderer.invoke('scan-applications'),
   findJunkFiles: (appName: string) => ipcRenderer.invoke('find-junk-files', appName),
   moveToTrash: (path: string) => ipcRenderer.invoke('move-to-trash', path),
-  uninstallApp: (appName: string, appPath: string) => ipcRenderer.invoke('uninstall-app', appName, appPath)
+  uninstallApp: (appName: string, appPath: string) =>
+    ipcRenderer.invoke('uninstall-app', appName, appPath)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
