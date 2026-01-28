@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # OpenCleaner Installer
-# https://github.com/YOUR_USERNAME/open-cleaner
+# https://github.com/aitorevi/open-cleaner
 #
 # Usage:
-#   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/open-cleaner/main/install.sh)"
+#   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/aitorevi/open-cleaner/main/install.sh)"
 
 set -e
 
@@ -16,7 +16,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-REPO_URL="https://github.com/YOUR_USERNAME/open-cleaner.git"
+REPO_URL="https://github.com/aitorevi/open-cleaner.git"
 INSTALL_DIR="$HOME/.opencleaner"
 BIN_DIR="/usr/local/bin"
 

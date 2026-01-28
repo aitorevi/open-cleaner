@@ -29,7 +29,7 @@ A modern, native-looking macOS application uninstaller built with Electron. Comp
 Open Terminal and run:
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/open-cleaner/main/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/aitorevi/open-cleaner/main/install.sh)"
 ```
 
 Then launch with:
@@ -43,7 +43,7 @@ opencleaner
 
 2. **Clone the repository**:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/open-cleaner.git
+   git clone https://github.com/aitorevi/open-cleaner.git
    cd open-cleaner
    ```
 
