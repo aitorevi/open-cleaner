@@ -72,7 +72,7 @@ Due to macOS 15 Sequoia's strict code signing requirements, unsigned apps are bl
 
 **This is NOT a security risk** - you're running the source code directly, which you can inspect yourself.
 
-For more details on distribution options, see [DISTRIBUTION.md](DISTRIBUTION.md).
+If you want to distribute a signed `.app`, you'll need an Apple Developer Certificate ($99/year).
 
 ## Tech Stack
 
