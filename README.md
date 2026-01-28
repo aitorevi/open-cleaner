@@ -16,11 +16,9 @@ A modern, native-looking macOS application uninstaller built with Electron. Comp
 - **Drag & Drop** - Drag apps to uninstall zone
 - **Search & Filter** - Find apps by name, filter by size
 
-## Screenshots
+## Screenshot
 
-| Light Mode | Dark Mode |
-|------------|-----------|
-| ![Light](docs/screenshot-light.png) | ![Dark](docs/screenshot-dark.png) |
+![OpenCleaner](docs/screenshot-dark.png)
 
 ## Installation
 
