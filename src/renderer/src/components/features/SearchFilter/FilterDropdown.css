@@ -1,0 +1,95 @@
+/**
+ * FilterDropdown Component Styles
+ */
+
+.filter-dropdown__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  height: 36px;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-secondary);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.filter-dropdown__trigger:hover {
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-border-primary);
+}
+
+.filter-dropdown__trigger:active {
+  transform: scale(0.98);
+}
+
+.filter-dropdown__trigger:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+.filter-dropdown__content {
+  min-width: 220px;
+  background-color: var(--color-surface-primary);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  padding: var(--spacing-sm);
+  z-index: var(--z-dropdown);
+  animation: slide-in-down var(--transition-base) ease-out;
+}
+
+.filter-dropdown__section {
+  padding: var(--spacing-xs) 0;
+}
+
+.filter-dropdown__label {
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filter-dropdown__item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  outline: none;
+  transition: background-color var(--transition-fast);
+  user-select: none;
+}
+
+.filter-dropdown__item:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.filter-dropdown__item:focus {
+  background-color: var(--color-surface-hover);
+}
+
+.filter-dropdown__item-indicator {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.filter-dropdown__separator {
+  height: 1px;
+  background-color: var(--color-border-secondary);
+  margin: var(--spacing-xs) 0;
+}

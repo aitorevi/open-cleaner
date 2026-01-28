@@ -1,0 +1,253 @@
+/**
+ * UninstallReport Component Styles
+ */
+
+.uninstall-report {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.uninstall-report__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-success);
+}
+
+.uninstall-report__title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+  text-align: center;
+}
+
+.uninstall-report__app-name {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  margin: 0;
+  text-align: center;
+}
+
+/* === SUMMARY CARDS === */
+.uninstall-report__summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-md);
+  width: 100%;
+  margin-top: var(--spacing-md);
+}
+
+.uninstall-report__card {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background-color: var(--color-surface-secondary);
+  border-radius: var(--radius-lg);
+}
+
+.uninstall-report__card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-xl);
+  flex-shrink: 0;
+}
+
+.uninstall-report__card-icon--success {
+  background-color: rgba(48, 209, 88, 0.15);
+}
+
+.uninstall-report__card-icon--info {
+  background-color: rgba(90, 200, 250, 0.15);
+}
+
+.uninstall-report__card-icon--accent {
+  background-color: rgba(10, 132, 255, 0.15);
+}
+
+.uninstall-report__card-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  min-width: 0;
+}
+
+.uninstall-report__card-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.uninstall-report__card-value {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* === DETAILS === */
+.uninstall-report__details {
+  width: 100%;
+  border-top: 1px solid var(--color-border-secondary);
+  padding-top: var(--spacing-lg);
+}
+
+.uninstall-report__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--spacing-md);
+  background-color: var(--color-surface-secondary);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.uninstall-report__toggle:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.uninstall-report__files {
+  margin-top: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  overflow: hidden;
+}
+
+.uninstall-report__file-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.uninstall-report__file-group-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.uninstall-report__file-group-count {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+}
+
+.uninstall-report__file-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding-left: var(--spacing-lg);
+}
+
+.uninstall-report__file-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--color-surface-secondary);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+}
+
+.uninstall-report__file-item svg {
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
+
+.uninstall-report__file-name {
+  flex: 1;
+  color: var(--color-text-primary);
+  font-family: var(--font-family-mono);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.uninstall-report__file-size {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+  flex-shrink: 0;
+}
+
+/* === ERRORS === */
+.uninstall-report__errors {
+  width: 100%;
+  padding: var(--spacing-md);
+  background-color: rgba(255, 69, 58, 0.1);
+  border: 1px solid var(--color-destructive);
+  border-radius: var(--radius-lg);
+}
+
+.uninstall-report__errors-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-destructive);
+}
+
+.uninstall-report__errors-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.uninstall-report__error-item {
+  font-size: var(--font-size-sm);
+  color: var(--color-destructive);
+  margin: 0;
+  font-family: var(--font-family-mono);
+}
+
+/* === ACTIONS === */
+.uninstall-report__actions {
+  display: flex;
+  gap: var(--spacing-md);
+  width: 100%;
+  margin-top: var(--spacing-md);
+}
+
+.uninstall-report__actions > button {
+  flex: 1;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .uninstall-report__summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .uninstall-report__icon svg {
+    width: 48px;
+    height: 48px;
+  }
+
+  .uninstall-report__title {
+    font-size: var(--font-size-xl);
+  }
+
+  .uninstall-report__card {
+    padding: var(--spacing-sm);
+  }
+}

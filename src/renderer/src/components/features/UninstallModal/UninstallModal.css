@@ -1,0 +1,98 @@
+/**
+ * UninstallModal Component Styles
+ */
+
+.uninstall-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+  text-align: center;
+}
+
+.uninstall-modal__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background-color: rgba(255, 69, 58, 0.1);
+  border-radius: var(--radius-full);
+  color: var(--color-destructive);
+}
+
+.uninstall-modal__title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.uninstall-modal__description {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  width: 100%;
+}
+
+.uninstall-modal__description p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: var(--line-height-normal);
+}
+
+.uninstall-modal__info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md);
+  background-color: var(--color-surface-secondary);
+  border-radius: var(--radius-md);
+}
+
+.uninstall-modal__info-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+
+.uninstall-modal__info-value {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-accent);
+}
+
+.uninstall-modal__warning {
+  font-size: var(--font-size-sm);
+  color: var(--color-destructive);
+  font-weight: var(--font-weight-medium);
+}
+
+.uninstall-modal__actions {
+  display: flex;
+  gap: var(--spacing-md);
+  width: 100%;
+  margin-top: var(--spacing-md);
+}
+
+.uninstall-modal__actions > button {
+  flex: 1;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 640px) {
+  .uninstall-modal__icon {
+    width: 64px;
+    height: 64px;
+  }
+
+  .uninstall-modal__icon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .uninstall-modal__actions {
+    flex-direction: column;
+  }
+}

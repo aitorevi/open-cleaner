@@ -1,0 +1,187 @@
+/**
+ * DragDropZone Component Styles
+ */
+
+.drag-drop-zone {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: var(--z-modal);
+  width: 400px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 69, 58, 0.1) 0%,
+    rgba(255, 69, 58, 0.05) 100%
+  );
+  backdrop-filter: var(--backdrop-blur-lg);
+  -webkit-backdrop-filter: var(--backdrop-blur-lg);
+  border-radius: var(--radius-xl);
+  border: 3px dashed var(--color-border-primary);
+  transition: all var(--transition-base);
+  pointer-events: all;
+}
+
+.drag-drop-zone--active {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 69, 58, 0.2) 0%,
+    rgba(255, 69, 58, 0.1) 100%
+  );
+  border-color: var(--color-destructive);
+  border-style: solid;
+  transform: translate(-50%, -50%) scale(1.05);
+  box-shadow: 0 0 40px rgba(255, 69, 58, 0.3);
+}
+
+.drag-drop-zone__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-xl);
+  text-align: center;
+}
+
+.drag-drop-zone__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  background-color: rgba(255, 69, 58, 0.15);
+  border-radius: var(--radius-full);
+  color: var(--color-destructive);
+  transition: all var(--transition-base);
+}
+
+.drag-drop-zone--active .drag-drop-zone__icon {
+  background-color: rgba(255, 69, 58, 0.25);
+  box-shadow: 0 0 20px rgba(255, 69, 58, 0.4);
+}
+
+.drag-drop-zone__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.drag-drop-zone__title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+  transition: color var(--transition-fast);
+}
+
+.drag-drop-zone--active .drag-drop-zone__title {
+  color: var(--color-destructive);
+}
+
+.drag-drop-zone__app-name {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  margin: 0;
+  padding: var(--spacing-xs) var(--spacing-md);
+  background-color: var(--color-surface-secondary);
+  border-radius: var(--radius-md);
+}
+
+.drag-drop-zone__description {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* Animated border */
+.drag-drop-zone__border {
+  position: absolute;
+  inset: -4px;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(
+    45deg,
+    transparent,
+    var(--color-destructive),
+    transparent
+  );
+  background-size: 200% 200%;
+  opacity: 0;
+  pointer-events: none;
+  animation: border-flow 3s linear infinite;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  padding: 3px;
+}
+
+.drag-drop-zone--active .drag-drop-zone__border {
+  opacity: 0.5;
+}
+
+@keyframes border-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Overlay backdrop */
+.drag-drop-zone::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-color: var(--overlay-light);
+  backdrop-filter: var(--backdrop-blur-md);
+  -webkit-backdrop-filter: var(--backdrop-blur-md);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.drag-drop-zone--active::before {
+  opacity: 1;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 640px) {
+  .drag-drop-zone {
+    width: 90vw;
+    height: 250px;
+  }
+
+  .drag-drop-zone__icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .drag-drop-zone__icon svg {
+    width: 48px;
+    height: 48px;
+  }
+
+  .drag-drop-zone__title {
+    font-size: var(--font-size-lg);
+  }
+}
+
+/* Disable animations for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .drag-drop-zone__border {
+    animation: none;
+  }
+
+  .drag-drop-zone__icon {
+    animation: none !important;
+  }
+}
