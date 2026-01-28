@@ -40,11 +40,15 @@ export class MacOSAppScannerAdapter implements IAppScannerPort {
             // Calculate size using system's du command (handles symlinks correctly)
             const size = await this.getDirectorySizeWithDu(fullPath)
 
+            // Extract app icon
+            const icon = await this.extractAppIcon(fullPath, appName)
+
             apps.push({
               name: appName,
               path: fullPath,
               version,
-              size
+              size,
+              icon
             })
           }
         }
@@ -54,6 +58,54 @@ export class MacOSAppScannerAdapter implements IAppScannerPort {
     }
 
     return apps
+  }
+
+  private isOpenCleanerFile(filePath: string): boolean {
+    // Exclude OpenCleaner's own files from search results
+    const openCleanerPatterns = [
+      'com.opencleaner.app',
+      'com.opensource.opencleaner',
+      'opencleaner.app',
+      '/OpenCleaner/',
+      'opencleaner-'
+    ]
+
+    const pathLower = filePath.toLowerCase()
+    return openCleanerPatterns.some((pattern) => pathLower.includes(pattern.toLowerCase()))
+  }
+
+  private shouldExcludeFile(filePath: string, appName: string): boolean {
+    // Exclude OpenCleaner's own files
+    if (this.isOpenCleanerFile(filePath)) {
+      return true
+    }
+
+    // Exclude app extensions (ShareExtension, Today Extension, etc.)
+    // These are often in use and protected by the system
+    const extensionPatterns = [
+      '.ShareExtension',
+      '.TelegramShare',
+      '.NotificationServiceExtension',
+      '.NotificationContentExtension',
+      '.TodayExtension',
+      '.MessagesExtension',
+      '.IntentsExtension',
+      '.IntentsUIExtension',
+      'ShareExtension',
+      'WidgetExtension'
+    ]
+
+    const pathLower = filePath.toLowerCase()
+    if (extensionPatterns.some((pattern) => pathLower.includes(pattern.toLowerCase()))) {
+      return true
+    }
+
+    // Exclude Group Containers (often shared between app and extensions)
+    if (filePath.includes('/Group Containers/')) {
+      return true
+    }
+
+    return false
   }
 
   async findJunkFiles(appName: string): Promise<JunkFile[]> {
@@ -109,6 +161,9 @@ export class MacOSAppScannerAdapter implements IAppScannerPort {
     for (const location of searchLocations) {
       if (addedPaths.has(location.path)) continue
 
+      // Skip excluded files (OpenCleaner's own files, extensions, etc.)
+      if (this.shouldExcludeFile(location.path, appName)) continue
+
       try {
         if (await this.fileSystem.checkAccess(location.path)) {
           const stats = await this.fileSystem.getStats(location.path)
@@ -156,6 +211,9 @@ export class MacOSAppScannerAdapter implements IAppScannerPort {
 
             if (addedPaths.has(fullPath)) continue
 
+            // Skip excluded files (OpenCleaner's own files, extensions, etc.)
+            if (this.shouldExcludeFile(fullPath, appName)) continue
+
             try {
               const stats = await this.fileSystem.getStats(fullPath)
               let size = stats.size
@@ -180,6 +238,100 @@ export class MacOSAppScannerAdapter implements IAppScannerPort {
     }
 
     return junkFiles
+  }
+
+  private async extractAppIcon(appPath: string, appName: string): Promise<string | undefined> {
+    try {
+      // Look for icon file in Info.plist
+      const infoPlistPath = path.join(appPath, 'Contents', 'Info.plist')
+
+      if (!(await this.fileSystem.checkAccess(infoPlistPath))) {
+        return undefined
+      }
+
+      // Get icon file name from Info.plist using PlistBuddy
+      let iconFileName: string | undefined
+      try {
+        const { stdout } = await execAsync(
+          `/usr/libexec/PlistBuddy -c "Print :CFBundleIconFile" "${infoPlistPath}"`
+        )
+        iconFileName = stdout.trim()
+      } catch (error) {
+        // If CFBundleIconFile doesn't exist, try common patterns
+        iconFileName = undefined
+      }
+
+      // Common icon file patterns to try
+      const resourcesPath = path.join(appPath, 'Contents', 'Resources')
+      const iconsToTry: string[] = []
+
+      if (iconFileName) {
+        // Add the icon from plist (with and without .icns extension)
+        iconsToTry.push(iconFileName)
+        if (!iconFileName.endsWith('.icns')) {
+          iconsToTry.push(`${iconFileName}.icns`)
+        }
+      }
+
+      // Add common fallback patterns
+      iconsToTry.push(
+        'AppIcon.icns',
+        'app.icns',
+        `${appName}.icns`,
+        'icon.icns'
+      )
+
+      // Try to find the icon file
+      for (const iconFile of iconsToTry) {
+        const iconPath = path.join(resourcesPath, iconFile)
+
+        if (await this.fileSystem.checkAccess(iconPath)) {
+          // Convert .icns to PNG using sips and return as base64
+          return await this.convertIconToBase64(iconPath)
+        }
+      }
+
+      // If no icon found, return undefined (will use fallback icon in UI)
+      return undefined
+    } catch (error) {
+      console.warn(`Could not extract icon for ${appName}:`, error)
+      return undefined
+    }
+  }
+
+  private async convertIconToBase64(icnsPath: string): Promise<string | undefined> {
+    try {
+      // Use a safer temp directory with proper quoting
+      const tempDir = os.tmpdir()
+      const tempPngPath = path.join(tempDir, `opencleaner-${Date.now()}-icon.png`)
+
+      // Escape paths for shell
+      const escapedIcnsPath = icnsPath.replace(/'/g, "'\\''")
+      const escapedTempPath = tempPngPath.replace(/'/g, "'\\''")
+
+      // Convert .icns to PNG using sips (macOS built-in tool)
+      // Use -Z instead of -z for better compatibility
+      await execAsync(
+        `sips -s format png -Z 128 '${escapedIcnsPath}' --out '${escapedTempPath}' 2>/dev/null`
+      )
+
+      // Read the PNG file and convert to base64
+      const { stdout } = await execAsync(`base64 -i '${escapedTempPath}'`)
+      const base64Data = stdout.trim()
+
+      // Clean up temp file
+      try {
+        await execAsync(`rm '${escapedTempPath}'`)
+      } catch (error) {
+        // Ignore cleanup errors
+      }
+
+      // Return as data URL
+      return `data:image/png;base64,${base64Data}`
+    } catch (error) {
+      // Silently fail - app will use fallback icon
+      return undefined
+    }
   }
 
   private async getDirectorySizeWithDu(dirPath: string): Promise<number> {
