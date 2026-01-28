@@ -60,7 +60,7 @@ export function registerIpcHandlers(): void {
   })
 
   // Uninstall app with full report
-  ipcMain.handle('uninstall-app', async (_event, appName: string, appPath: string) => {
+  ipcMain.handle('uninstall-app', async (_event, appName: string, appPath: string, appSize: number) => {
     try {
       const report = {
         appName,
@@ -84,7 +84,8 @@ export function registerIpcHandlers(): void {
       try {
         await moveToTrashUseCase.execute(appPath)
         report.mainAppDeleted = true
-        console.log(`✅ Main app deleted: ${appPath}`)
+        report.totalSpaceFreed += appSize
+        console.log(`✅ Main app deleted: ${appPath} (${appSize} bytes)`)
       } catch (error) {
         const errorMsg = `No se pudo eliminar la aplicación principal: ${(error as Error).message}`
         report.errors.push(errorMsg)

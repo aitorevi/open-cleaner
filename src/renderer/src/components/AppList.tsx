@@ -36,7 +36,7 @@ export function AppList() {
   const handleUninstall = async (app: App) => {
     if (confirm(`¿Estás seguro de que quieres desinstalar ${app.name}?`)) {
       try {
-        const result = await window.api.uninstallApp(app.name, app.path)
+        const result = await window.api.uninstallApp(app.name, app.path, app.size)
 
         if (result.success && result.report) {
           const report = result.report

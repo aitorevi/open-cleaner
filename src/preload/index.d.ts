@@ -22,7 +22,8 @@ interface OpenCleanerAPI {
   moveToTrash: (path: string) => Promise<{ success: boolean; error?: string }>
   uninstallApp: (
     appName: string,
-    appPath: string
+    appPath: string,
+    appSize: number
   ) => Promise<{ success: boolean; report?: UninstallReport; error?: string }>
   onThemeChange: (callback: (event: ThemeChangeEvent) => void) => void
 }

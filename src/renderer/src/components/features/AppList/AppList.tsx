@@ -103,7 +103,7 @@ export function AppList() {
     setShowProgressModal(true)
 
     try {
-      const result = await window.api.uninstallApp(appToUninstall.name, appToUninstall.path)
+      const result = await window.api.uninstallApp(appToUninstall.name, appToUninstall.path, appToUninstall.size)
 
       setShowProgressModal(false)
 
