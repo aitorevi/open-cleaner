@@ -9,12 +9,9 @@ const execAsync = promisify(exec)
 export class NodeFileSystemAdapter implements IFileSystemPort {
   async checkAccess(path: string): Promise<boolean> {
     try {
-      console.log('Checking access to:', path)
       await fs.access(path, fs.constants.R_OK)
-      console.log('✅ Access granted to:', path)
       return true
     } catch (error) {
-      console.log('❌ Access denied to:', path, error)
       return false
     }
   }
