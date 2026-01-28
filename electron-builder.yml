@@ -27,6 +27,10 @@ nsis:
 mac:
   category: public.app-category.utilities
   icon: build/icon.icns
+  hardenedRuntime: false
+  gatekeeperAssess: false
+  entitlements: null
+  entitlementsInherit: null
   target:
     - target: dmg
       arch:
