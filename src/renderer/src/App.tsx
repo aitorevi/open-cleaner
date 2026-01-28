@@ -1,9 +1,10 @@
 import { usePermissions } from './hooks/usePermissions'
-import { Onboarding } from './components/Onboarding'
-import { AppList } from './components/AppList'
+import { Onboarding } from './components/features/Onboarding/Onboarding'
+import { AppList } from './components/features/AppList/AppList'
+import { ThemeProvider } from './contexts/ThemeContext'
 import './App.css'
 
-function App(): React.JSX.Element {
+function AppContent(): React.JSX.Element {
   const { hasPermissions, isChecking, recheckPermissions } = usePermissions()
 
   // Loading state
@@ -23,6 +24,14 @@ function App(): React.JSX.Element {
 
   // Has permissions - show app list
   return <AppList />
+}
+
+function App(): React.JSX.Element {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
+  )
 }
 
 export default App

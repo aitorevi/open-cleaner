@@ -10,6 +10,11 @@ interface UninstallReport {
   errors: string[]
 }
 
+interface ThemeChangeEvent {
+  shouldUseDarkColors: boolean
+  themeSource: string
+}
+
 interface OpenCleanerAPI {
   checkPermissions: () => Promise<{ hasPermissions: boolean }>
   scanApplications: () => Promise<App[]>
@@ -19,6 +24,7 @@ interface OpenCleanerAPI {
     appName: string,
     appPath: string
   ) => Promise<{ success: boolean; report?: UninstallReport; error?: string }>
+  onThemeChange: (callback: (event: ThemeChangeEvent) => void) => void
 }
 
 declare global {

@@ -1,14 +1,18 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, nativeTheme } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { registerIpcHandlers } from './ipc/handlers'
 
+let mainWindow: BrowserWindow | null = null
+
 function createWindow(): void {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+  mainWindow = new BrowserWindow({
+    width: 1400,
+    height: 900,
+    minWidth: 1024,
+    minHeight: 700,
     show: true, // Mostrar inmediatamente para debugging
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
@@ -60,6 +64,16 @@ app.whenReady().then(() => {
   registerIpcHandlers()
 
   createWindow()
+
+  // Listen for system theme changes and notify renderer
+  nativeTheme.on('updated', () => {
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('theme-changed', {
+        shouldUseDarkColors: nativeTheme.shouldUseDarkColors,
+        themeSource: nativeTheme.themeSource
+      })
+    }
+  })
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

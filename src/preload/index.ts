@@ -8,7 +8,10 @@ const api = {
   findJunkFiles: (appName: string) => ipcRenderer.invoke('find-junk-files', appName),
   moveToTrash: (path: string) => ipcRenderer.invoke('move-to-trash', path),
   uninstallApp: (appName: string, appPath: string) =>
-    ipcRenderer.invoke('uninstall-app', appName, appPath)
+    ipcRenderer.invoke('uninstall-app', appName, appPath),
+  onThemeChange: (callback: (event: any) => void) => {
+    ipcRenderer.on('theme-changed', (_event, data) => callback(data))
+  }
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
