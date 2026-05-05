@@ -5,6 +5,7 @@ A modern, native-looking macOS application uninstaller built with Electron. Comp
 ![macOS](https://img.shields.io/badge/macOS-15%2B-blue)
 ![Electron](https://img.shields.io/badge/Electron-39-47848F)
 ![License](https://img.shields.io/badge/license-MIT-green)
+![CI](https://github.com/aitorevi/open-cleaner/actions/workflows/ci.yml/badge.svg)
 
 ## Features
 
@@ -71,6 +72,37 @@ Due to macOS 15 Sequoia's strict code signing requirements, unsigned apps are bl
 **This is NOT a security risk** - you're running the source code directly, which you can inspect yourself.
 
 If you want to distribute a signed `.app`, you'll need an Apple Developer Certificate ($99/year).
+
+## Architecture
+
+Clean architecture with three layers — each depends only on the one above it:
+
+```
+┌─────────────────────────────────────────┐
+│  domain/                                │
+│  ├── entities/   App, JunkFile          │
+│  └── ports/      AppScannerPort,        │
+│                  FileSystemPort         │
+├─────────────────────────────────────────┤
+│  application/                           │
+│  ├── ScanApplications                   │
+│  ├── FindJunkFiles                      │
+│  ├── UninstallApp                       │
+│  ├── MoveToTrash                        │
+│  └── CheckPermissions                   │
+├─────────────────────────────────────────┤
+│  infrastructure/                        │
+│  ├── adapters/   MacOSAppScanner,       │
+│  │               NodeFileSystem         │
+│  └── ipc/        IPC handlers           │
+└─────────────────────────────────────────┘
+         ↕ Electron IPC bridge
+┌─────────────────────────────────────────┐
+│  renderer/   React 19 UI                │
+└─────────────────────────────────────────┘
+```
+
+Domain ports make all use cases testable without Electron or a real filesystem.
 
 ## Tech Stack
 
